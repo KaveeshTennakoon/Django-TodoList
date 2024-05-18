@@ -18,7 +18,7 @@
     <div class="container">
         <div class="todo-list">
             <h3>To-Do</h3>
-            <div id="todo-list">
+            <div id="haveto-list">
                 {% for todo in res %}
                     {% if not todo.complete %}
                         <div class="todo-item notcomplete" data-id="{{ todo.id }}">
@@ -33,19 +33,24 @@
                                     <span>{{ todo.title }}</span>
                                 </label>
                             </div>
-                            <a href="{% url 'task_delete' todo.id %}"><button class="delete-button"><i class="fa fa-trash-o" style="font-size:24px"></i></button></a>
+                            <div class="button-group">
+                                <a href="{% url 'update_todo' todo.id %}"><button class="list-button"><i class="fa fa-edit" style="font-size:24px"></i></button></a>
+                                <a href="{% url 'task_delete' todo.id %}"><button class="list-button"><i class="fa fa-trash-o" style="font-size:24px"></i></button></a>
+                            </div>
                         </div>
                     {% endif %}
                 {% endfor %}
             </div>
+
             <hr>
+
             <h3>Completed</h3>
             <div id="completed-list">
                 {% for todo in res %}
                     {% if todo.complete %}
                         <div class="todo-item complete" data-id="{{ todo.id }}">
                             <div class="checkbox-wrapper-15">
-                                <input class="inp-cbx" id="cbx-{{ forloop.counter }}" type="checkbox" style="display: none;" data-id="{{ todo.id }}" checked/>
+                                <input class="inp-cbx" id="cbx-{{ forloop.counter }}" type="checkbox" style="display: none;" data-id="{{ todo.id }}" checked disabled/>
                                 <label class="cbx" for="cbx-{{ forloop.counter }}">
                                     <span>
                                         <svg width="12px" height="9px" viewbox="0 0 12 9">
@@ -55,7 +60,9 @@
                                     <span>{{ todo.title }}</span>
                                 </label>
                             </div>
-                            <a href="{% url 'task_delete' todo.id %}"><button class="delete-button"><i class="fa fa-trash-o" style="font-size:24px"></i></button></a>
+                            <div class="button-group">
+                                <a href="{% url 'task_delete' todo.id %}"><button class="list-button"><i class="fa fa-trash-o" style="font-size:24px"></i></button></a>
+                            </div>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -77,7 +84,8 @@
                 var taskId = $(this).data('id');
                 var isChecked = $(this).is(':checked');
                 var todoItem = $(this).closest('.todo-item');
-
+                var editButton = todoItem.find('.fa-edit').closest('button');
+    
                 $.ajax({
                     url: '/complete/' + taskId + '/',
                     method: 'POST',
@@ -91,9 +99,13 @@
                             if (isChecked) {
                                 todoItem.removeClass('notcomplete').addClass('complete');
                                 $('#completed-list').append(todoItem);
+                                todoItem.find('.inp-cbx').attr('disabled', true);
+                                editButton.hide(); // Hide the edit button
                             } else {
                                 todoItem.removeClass('complete').addClass('notcomplete');
-                                $('#todo-list').append(todoItem);
+                                $('#haveto-list').append(todoItem);
+                                todoItem.find('.inp-cbx').removeAttr('disabled');
+                                editButton.show(); // Show the edit button
                             }
                         } else {
                             alert('Failed to update task completion.');
@@ -106,5 +118,7 @@
             });
         });
     </script>
+    
+    
 </body>
 </html>

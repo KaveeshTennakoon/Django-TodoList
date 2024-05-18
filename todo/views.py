@@ -95,3 +95,6 @@ def update_task_completion(request, task_id):
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+def update_todo(request, id):
+    return render(request, 'update.html')
