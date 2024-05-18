@@ -1,0 +1,214 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 50%;
+    margin-top: 2%;
+    position: fixed;
+}
+
+
+.logout-button {
+    background-color: #c63f3f;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover,
+.logout-button:focus {
+    background-color: #abf5c2;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin-top: 7%;
+    margin-bottom: 5%;
+    position: fixed;
+}
+
+.feature {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.search-container,
+.add-new-container {
+    margin-bottom: 20px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-input,
+.add-new-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.todo-list {
+    margin-bottom: 20px;
+    max-height: 45vh;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+    max-width: 96%;
+}
+
+.todo-item.notcomplete {
+    background-color: #0073e6;
+}
+
+.todo-item.complete {
+    background-color: #004080;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-button {
+    background-color: #4fe085;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    padding: 10px 20px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.add-button:hover,
+.add-button:focus {
+    background-color: #abf5c2;
+}
+
+.checkbox-wrapper-15 .cbx {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+}
+
+.checkbox-wrapper-15 .cbx span {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+}
+
+.checkbox-wrapper-15 .cbx span:first-child {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transform: scale(1);
+    vertical-align: middle;
+    border: 1px solid #B9B8C3;
+    transition: all 0.2s ease;
+}
+
+.checkbox-wrapper-15 .cbx span:first-child svg {
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    left: 6px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+}
+
+.checkbox-wrapper-15 .cbx span:first-child:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #0073e6;
+    display: block;
+    transform: scale(0);
+    opacity: 1;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.checkbox-wrapper-15 .cbx span:last-child {
+    padding-left: 8px;
+    line-height: 24px;
+    padding-top: 3px;
+}
+
+.checkbox-wrapper-15 .cbx:hover span:first-child {
+    border-color: #0073e6;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:first-child {
+    background: #0073e6;
+    border-color: #0073e6;
+    animation: wave-15 0.4s ease;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:first-child:before {
+    transform: scale(3.5);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+.checkbox-wrapper-15 .cbx:active span:first-child {
+    transform: scale(0.95);
+}
+
+@keyframes wave-15 {
+    50% {
+        transform: scale(0.9);
+    }
+}

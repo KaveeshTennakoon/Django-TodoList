@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'todo.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome {{ user.username }}</h1>
+        <a href="{% url 'user_logout' %}" class="logout-button">Log Out</a>
+    </div>
+
+    <div class="container">
+        <div class="todo-list">
+            <h3>To-Do</h3>
+            <div id="todo-list">
+                {% for todo in res %}
+                    {% if not todo.complete %}
+                        <div class="todo-item notcomplete" data-id="{{ todo.id }}">
+                            <div class="checkbox-wrapper-15">
+                                <input class="inp-cbx" id="cbx-{{ forloop.counter }}" type="checkbox" style="display: none;" data-id="{{ todo.id }}"/>
+                                <label class="cbx" for="cbx-{{ forloop.counter }}">
+                                    <span>
+                                        <svg width="12px" height="9px" viewbox="0 0 12 9">
+                                            <polyline points="1 5 4 8 11 1"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span>{{ todo.title }}</span>
+                                </label>
+                            </div>
+                            <a href="{% url 'task_delete' todo.id %}"><button class="delete-button"><i class="fa fa-trash-o" style="font-size:24px"></i></button></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <hr>
+            <h3>Completed</h3>
+            <div id="completed-list">
+                {% for todo in res %}
+                    {% if todo.complete %}
+                        <div class="todo-item complete" data-id="{{ todo.id }}">
+                            <div class="checkbox-wrapper-15">
+                                <input class="inp-cbx" id="cbx-{{ forloop.counter }}" type="checkbox" style="display: none;" data-id="{{ todo.id }}" checked/>
+                                <label class="cbx" for="cbx-{{ forloop.counter }}">
+                                    <span>
+                                        <svg width="12px" height="9px" viewbox="0 0 12 9">
+                                            <polyline points="1 5 4 8 11 1"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span>{{ todo.title }}</span>
+                                </label>
+                            </div>
+                            <a href="{% url 'task_delete' todo.id %}"><button class="delete-button"><i class="fa fa-trash-o" style="font-size:24px"></i></button></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <h4 class="feature">Add New</h4>
+            <div class="add-new-container">
+                <input type="text" placeholder="Add a new to-do..." class="add-new-input" name="title" required>
+                <input type="submit" value="Add" class="add-button">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.inp-cbx').change(function() {
+                var taskId = $(this).data('id');
+                var isChecked = $(this).is(':checked');
+                var todoItem = $(this).closest('.todo-item');
+
+                $.ajax({
+                    url: '/complete/' + taskId + '/',
+                    method: 'POST',
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                    data: {
+                        'complete': isChecked
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('Task completion updated.');
+                            if (isChecked) {
+                                todoItem.removeClass('notcomplete').addClass('complete');
+                                $('#completed-list').append(todoItem);
+                            } else {
+                                todoItem.removeClass('complete').addClass('notcomplete');
+                                $('#todo-list').append(todoItem);
+                            }
+                        } else {
+                            alert('Failed to update task completion.');
+                        }
+                    },
+                    error: function() {
+                        alert('Error in the request.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
