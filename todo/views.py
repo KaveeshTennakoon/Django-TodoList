@@ -73,10 +73,6 @@ def task_delete(request, id):
     return redirect('todo')
 
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Task
-
 @csrf_exempt
 @login_required
 def update_task_completion(request, task_id):
@@ -96,5 +92,21 @@ def user_logout(request):
     logout(request)
     return redirect('login')
 
-def update_todo(request, id):
-    return render(request, 'update.html')
+@csrf_exempt
+def update_todo(request, task_id):
+    todo = Task.objects.get(id=task_id)
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        complete = request.POST.get('complete') == 'on'
+        
+        if title:
+            todo.title = title
+            todo.complete = complete
+            todo.save()
+            return redirect('todo')  # Redirect to your desired view after updating
+    context = {
+        'todo': todo
+    }
+    return render(request, 'update.html', context)
+

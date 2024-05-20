@@ -33,7 +33,7 @@ body {
 
 .logout-button:hover,
 .logout-button:focus {
-    background-color: #abf5c2;
+    background-color: #f1ac9f;
 }
 
 .container {
@@ -44,7 +44,7 @@ body {
     width: 50%;
     margin-top: 7%;
     margin-bottom: 5%;
-    position: fixed;
+    position:absolute;
 }
 
 .feature {
